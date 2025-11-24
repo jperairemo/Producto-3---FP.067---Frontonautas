@@ -2,21 +2,49 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import styles from './inicio.styles';
 
+
 import { db } from '../firebase/firebase';
-import { ref, onValue } from 'firebase/database';
+import { ref, onValue, get, child } from 'firebase/database';
+
 
 export default function Inicio() {
 
+
   const [jugadores, setJugadores] = useState([]);
 
+
   useEffect(() => {
-    // leer jugadores realtime
+
+
+    // ============================
+    // 1. Comprobación solicitada en el enunciado ("once")
+    // ============================
+    const rootRef = ref(db);
+
+
+    get(child(rootRef, "jugadores"))
+      .then(snapshot => {
+        if (snapshot.exists()) {
+          console.log("Datos recibidos con get() (equivalente a once):");
+          console.log(snapshot.val());
+        } else {
+          console.log("No existen datos en la ruta jugadores");
+        }
+      })
+      .catch(err => console.error(err));
+
+
+
+
+    // ============================
+    // 2. Lectura en tiempo real
+    // ============================
     const jugadoresRef = ref(db, "jugadores");
+
 
     onValue(jugadoresRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        // convertir objeto a array usable por FlatList
         const lista = Object.keys(data).map(id => ({
           id,
           ...data[id]
@@ -24,18 +52,24 @@ export default function Inicio() {
         setJugadores(lista);
       }
     });
+
+
   }, []);
+
 
   return (
     <View style={styles.container}>
+
 
       <View style={styles.header}>
         <Text style={styles.headerText}>EQUIPO BASKET</Text>
       </View>
 
+
       <TouchableOpacity style={styles.btnNuevoJugador}>
         <Text style={styles.btnText}>+ Nuevo jugador</Text>
       </TouchableOpacity>
+
 
       <FlatList
         data={jugadores}
@@ -47,11 +81,13 @@ export default function Inicio() {
                 <Text style={styles.avatarText}>👤</Text>
               </View>
 
+
               <View>
                 <Text style={styles.nombre}>{item.nombre} {item.apellidos}</Text>
                 <Text style={styles.posicion}>{item.posicion}</Text>
               </View>
             </View>
+
 
             <TouchableOpacity>
               <Text style={styles.deleteIcon}>🗑️</Text>
