@@ -7,10 +7,15 @@ import { db } from '../firebase/firebase';
 import { ref, onValue, get, child } from 'firebase/database';
 
 
-export default function Inicio() {
+export default function Inicio({ navigation }) {
 
 
   const [jugadores, setJugadores] = useState([]);
+  const navegarADetalles = (jugador) => {
+      navigation.navigate('Detalle', {
+        jugadorData: jugador
+      });
+    };
 
 
   useEffect(() => {
@@ -66,7 +71,7 @@ export default function Inicio() {
       </View>
 
 
-      <TouchableOpacity style={styles.btnNuevoJugador}>
+      <TouchableOpacity style={styles.btnNuevoJugador} onPress={() => navigation.navigate('NuevaPantalla')}>
         <Text style={styles.btnText}>+ Nuevo jugador</Text>
       </TouchableOpacity>
 
@@ -75,7 +80,7 @@ export default function Inicio() {
         data={jugadores}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.card}>
+        <TouchableOpacity style={styles.card} onPress={() => navegarADetalles(item)} >
             <View style={styles.cardLeft}>
               <View style={styles.avatar}>
                 <Text style={styles.avatarText}>👤</Text>
@@ -92,7 +97,7 @@ export default function Inicio() {
             <TouchableOpacity>
               <Text style={styles.deleteIcon}>🗑️</Text>
             </TouchableOpacity>
-          </View>
+        </TouchableOpacity>
         )}
       />
     </View>
