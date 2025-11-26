@@ -1,95 +1,240 @@
 import { StyleSheet } from "react-native";
 
-export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#F7D7B5",
-    paddingHorizontal: 20,
-    paddingTop: 40
-  },
+const styles = StyleSheet.create({
 
-  header: {
-    backgroundColor: "white",
-    //paddingVertical: 20,
-    borderRadius: 5,
-    alignItems: "center",
-    //marginBottom: 20
-  },
+    cardContainer: {
+        flex: 1,
+        padding: 20,
+        backgroundColor: "#F7D7B5",
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+        padding: 20,
+        backgroundColor: "white",
+        borderRadius: 8,
+    },
+    headerTitle: {
+        fontSize: 20,
+        color: "black",
+    },
+    headerButtons: {
+        flexDirection: 'row',
+    },
+    buttonText: {
+        color: "white",
+        marginLeft: 4,
+        fontSize: 20,
+    },
+    //Estilos del Avatar
+    outerAvatarRing: {
+        width: 130,
+        height: 130,
+        borderRadius: 65,
+        backgroundColor: '#f5b041',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    detailAvatarBg: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#E37C2C', // Gris de fondo para el círculo
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 
-  headerText: {
-    color: "black",
-    //fontWeight: "bold",
-    fontSize: 20
-  },
+    avatarContainer: {
+        marginRight: 0,
+        marginBottom: 15,
+    },
+  
+    //Estilo para el icono/texto de avatar si no hay imagen
+    avatarText: {
+        fontSize: 32,
+        lineHeight: 120,
+        textAlign: 'center',
+        width: '100%',
+    },
 
-  btnNuevoJugador: {
-    backgroundColor: "#D9792B",
-    paddingVertical: 12,
-    borderRadius: 12,
-    alignItems: "center",
-    marginBottom: 20
-  },
+  //Separación entre foto y texto
+    infoRow: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: "white",
+        borderRadius: 8,
+    },
 
-  btnText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold"
-  },
+    textInfoContainer: {
+        width: '100%',
+        alignItems: 'flex-start',
+    },
 
-  card: {
-    backgroundColor: "white",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    padding: 15,
-    borderRadius: 12,
-    marginBottom: 15,
-    elevation: 3
-  },
+    detailItem: {
+        flexDirection: 'column',
+        marginBottom: 12,
+    },
 
-  cardLeft: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15
-  },
+    editFieldCard: {
+        width: '100%',
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        paddingTop: 15,
+    },
 
-  avatar: {
-    backgroundColor: "#F7D7B5",
-    padding: 12,
-    borderRadius: 40
-  },
+    editRow: {
+        flexDirection: 'column',
+        //alignItems: 'center',
+        padding: 20,
+        backgroundColor: "white",
+        borderRadius: 8,
+    },
 
-  avatarText: {
-    fontSize: 22
-  },
+    textEditContainer: {
 
-  nombre: {
-    fontSize: 16,
-    fontWeight: "bold"
-  },
+        //alignItems: 'flex-start',
+    },
 
-  posicion: {
-    fontSize: 14,
-    color: "gray"
-  },
+    editItem: {
+        flexDirection: 'column',
+        marginBottom: 12,
+        alignItems: 'center',
+    },
 
-  deleteIcon: {
-    backgroundColor: "#FFD6D6",
-    padding: 10,
-    borderRadius: 10,
-    fontSize: 18
-  },
+    // Botón naranja de marca
+    btnBrand: {
+      backgroundColor: '#e07a2f',
+      borderColor: '#e07a2f',
+      color: "white",
+      borderRadius: 6,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 
-  lable: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginTop: 10,
-    color: '#555',
-  },
+      //Botón EDITAR
+    btnEditFilled: {
+      backgroundColor: '#E37C2C',
+      borderColor: '#E37C2C',
+      color: "white",
+      borderRadius: 6,
+      paddingVertical: 4,
+      paddingHorizontal: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
 
-  value: {
-    fontSize: 18,
-    marginBottom: 5,
-    color: '#000',
-  },
+    //Iconos alineados dentro de los botones
+    buttonIcon: {
+      marginRight: 4, // margin-right: 4px
+    },
+
+    label: {
+      color: "gray",
+      marginRight: 5,
+      fontSize: 18,
+    },
+
+    value: {
+      color: "black",
+      fontSize: 18,
+    },
+
+    mediaContainer: {
+        padding: 20,
+        paddingBottom: 30,
+        backgroundColor: "white",
+        borderRadius: 8,
+        marginTop: 20,
+    },
+
+    // Título "Media"
+    mediaTitle: {
+        fontSize: 20,
+        color: "black",
+        marginBottom: 15,
+    },
+
+    // Botón Naranja "Jugadas Destacadas"
+    btnMedia: {
+        backgroundColor: '#E37C2C',
+        borderRadius: 6,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2,
+    },
+
+    // Texto del botón
+    btnMediaText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+
+    // Edición de jugador
+    inputField: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        paddingVertical: 8,
+        fontSize: 18,
+        color: 'black',
+        marginTop: 4,
+        width: '100%',
+    },
+
+    btnEdit: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 6,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    buttonCancel: {
+        color: 'gray',
+        marginLeft: 4,
+        fontSize: 20,
+    },
+
+    pickerContainer: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 8,
+        marginTop: 4,
+        overflow: 'hidden', // Para contener el picker dentro del borde
+        backgroundColor: 'white',
+        height: 50, // Altura fija para alineación
+        justifyContent: 'center',
+    },
+    pickerStyle: {
+        height: 50,
+        width: '100%',
+        color: 'black',
+    },
+    pickerItemStyle: {
+        // Estilos específicos para ítems en iOS
+        height: 50,
+        fontSize: 18,
+    },
 });
+export { styles };
