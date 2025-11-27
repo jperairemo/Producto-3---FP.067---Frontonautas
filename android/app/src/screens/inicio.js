@@ -8,8 +8,10 @@ import {
   Modal,
   TextInput,
   Alert,
+  Image,
 } from 'react-native';
 import styles from './inicio.styles';
+import logo from '../assets/logo.png';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
@@ -151,7 +153,7 @@ export default function Inicio({ navigation }) {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>EQUIPO BASKET</Text>
+        <Image source={logo} style={styles.logo} resizeMode="contain" />
       </View>
 
       {/* Botón Nuevo jugador */}
