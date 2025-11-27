@@ -78,5 +78,104 @@ export default StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     fontSize: 18
-  }
+  },
+
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.35)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  modalCard: {
+    width: '90%',
+    backgroundColor: 'white',
+    borderRadius: 16,
+    overflow: 'hidden',
+  },
+
+  modalHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#D9792B',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+
+  modalTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  modalHeaderTitle: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  modalCloseButton: {
+    padding: 4,
+  },
+
+  modalBody: {
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+  },
+
+  formRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+
+  formField: {
+    flexBasis: '48%',
+    marginBottom: 8,
+  },
+
+  label: {
+    fontSize: 14,
+    color: '#555',
+    marginBottom: 4,
+  },
+
+  input: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    fontSize: 14,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+
+  pickerContainer: {
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    overflow: 'hidden',
+  },
+
+  saveButtonWrapper: {
+    marginTop: 12,
+    alignItems: 'flex-end',
+  },
+
+  saveButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#3D6BE5',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
+  },
+
+  saveButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });
