@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import { styles } from './detalle.styles';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Picker } from '@react-native-picker/picker';
 
 import { db } from '../firebase/firebase';
@@ -17,68 +18,107 @@ const POSICIONES_BASKET = [
 
 export default function Detalles({ route, navigation }) {
 
-  const navegarAReproductor = () => {
-    navigation.navigate('Media', {
-        jugador: jugadorActual
-    });
-  }
-
-  const initialJugadorData = route.params?.jugadorData || {};
-  const [jugadorActual, setJugadorActual] = useState(initialJugadorData);
-
-  const [editMode, setEditMode] = useState(false);
-  const [jugadorEditable, setJugadorEditable] = useState(initialJugadorData);
-
-
-  const enableEdit = () => {
-    setJugadorEditable({...jugadorActual});
-    setEditMode(true);
-  };
-
-  const cancelEdit = () => {
+  const cancelEdit = useCallback(() => {
     setEditMode(false);
-  };
+  }, []);
 
-  const saveChanges = async () => {
-      try {
-        const jugadorRef = ref(db, `jugadores/${jugadorActual.id}`);
+  const navegarAReproductor = () => {
+      navigation.navigate('Media', {
+          jugador: jugadorActual
+      });
+    }
 
-        const datosAGuardar = {
-          id: jugadorActual.id,
-          nombre: jugadorEditable.nombre,
-          apellidos: jugadorEditable.apellidos,
-          posicion: jugadorEditable.posicion,
-          videoUrl: jugadorEditable.videoUrl,
-          edad: parseInt(jugadorEditable.edad) || 0,
-          altura: parseFloat(jugadorEditable.altura) || 0,
-        };
+    const initialJugadorData = route.params?.jugadorData || {};
+    const [jugadorActual, setJugadorActual] = useState(initialJugadorData);
 
-        await update(jugadorRef, datosAGuardar);
-        setJugadorActual(datosAGuardar);
+    const [editMode, setEditMode] = useState(false);
+    const [jugadorEditable, setJugadorEditable] = useState(initialJugadorData);
 
-        console.log('Cambios guardados exitosamente en Realtime Database:', jugadorActual.id);
 
-        setEditMode(false);
-      } catch (error) {
-        console.error('Error al guardar los cambios en Realtime Database:', error);
-        alert("Error al guardar los datos. Inténtalo de nuevo.");
+    const enableEdit = () => {
+      setJugadorEditable({...jugadorActual});
+      setEditMode(true);
+    };
+
+    const saveChanges = async () => {
+        try {
+          const jugadorRef = ref(db, `jugadores/${jugadorActual.id}`);
+
+          const datosAGuardar = {
+            id: jugadorActual.id,
+            nombre: jugadorEditable.nombre,
+            apellidos: jugadorEditable.apellidos,
+            posicion: jugadorEditable.posicion,
+            videoUrl: jugadorEditable.videoUrl,
+            edad: parseInt(jugadorEditable.edad) || 0,
+            altura: parseFloat(jugadorEditable.altura) || 0,
+          };
+
+          await update(jugadorRef, datosAGuardar);
+          setJugadorActual(datosAGuardar);
+
+          console.log('Cambios guardados exitosamente en Realtime Database:', jugadorActual.id);
+
+          setEditMode(false);
+        } catch (error) {
+          console.error('Error al guardar los cambios en Realtime Database:', error);
+          alert("Error al guardar los datos. Inténtalo de nuevo.");
+        }
+    };
+
+    const handleInputChange = (key, value) => {
+      setJugadorEditable(prev => ({
+        ...prev,
+        [key]: value
+      }));
+    };
+
+    if (!jugadorActual.id) {
+      return (
+        <View style={styles.cardContainer}>
+          <Text style={styles.headerTitle}>No se han cargado los detalles del jugador.</Text>
+        </View>
+      );
+    };
+
+  useLayoutEffect(() => {
+
+      const headerRightConfig = {
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={() => navigation.popToTop()}
+            style={{ marginRight: 15 }}
+          >
+            <Icon name="home" size={24} color="white" />
+          </TouchableOpacity>
+        ),
+      };
+      if (editMode) {
+        navigation.setOptions({
+          ...headerRightConfig,
+          headerLeft: () => (
+            <TouchableOpacity
+                onPress={cancelEdit}
+                style={{ paddingLeft: 1, paddingRight: 32 }}
+              >
+                <IonIcon
+                    name={'arrow-back'}
+                    size={22.5}
+                    color="white"
+                />
+              </TouchableOpacity>
+          ),
+          gestureEnabled: false,
+        });
+      } else {
+        navigation.setOptions({
+          ...headerRightConfig,
+          headerLeft: undefined,
+          gestureEnabled: true,
+        });
       }
-  };
 
-  const handleInputChange = (key, value) => {
-    setJugadorEditable(prev => ({
-      ...prev,
-      [key]: value
-    }));
-  };
-
-  if (!jugadorActual.id) {
-    return (
-      <View style={styles.cardContainer}>
-        <Text style={styles.headerTitle}>No se han cargado los detalles del jugador.</Text>
-      </View>
-    );
-  }
+    }, [navigation, cancelEdit, editMode]);
 
   return (
     <View style={styles.cardContainer}>
