@@ -15,15 +15,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-picker/picker';
 
 import { db } from '../firebase/firebase';
-import {
-  ref,
-  onValue,
-  get,
-  child,
-  push,
-  set,
-  remove,
-} from 'firebase/database';
+import { ref, onValue, get, child, push, set, remove } from 'firebase/database';
 
 const POSICIONES_BASKET = ['Base', 'Escolta', 'Alero', 'Ala-Pívot', 'Pívot'];
 
@@ -41,7 +33,7 @@ export default function Inicio({ navigation }) {
     videoUrl: '',
   });
 
-  const navegarADetalles = (jugador) => {
+  const navegarADetalles = jugador => {
     navigation.navigate('Detalle', {
       jugadorData: jugador,
     });
@@ -55,22 +47,22 @@ export default function Inicio({ navigation }) {
 
     // 1. Comprobación con get() (tipo once)
     get(child(rootRef, 'jugadores'))
-      .then((snapshot) => {
+      .then(snapshot => {
         if (snapshot.exists()) {
           console.log('Datos recibidos con get():', snapshot.val());
         } else {
           console.log('No existen datos en la ruta jugadores');
         }
       })
-      .catch((err) => console.error(err));
+      .catch(err => console.error(err));
 
     // 2. Lectura en tiempo real
     const jugadoresRef = ref(db, 'jugadores');
 
-    const unsubscribe = onValue(jugadoresRef, (snapshot) => {
+    const unsubscribe = onValue(jugadoresRef, snapshot => {
       const data = snapshot.val();
       if (data) {
-        const lista = Object.keys(data).map((id) => ({
+        const lista = Object.keys(data).map(id => ({
           id,
           ...data[id],
         }));
@@ -103,7 +95,7 @@ export default function Inicio({ navigation }) {
   };
 
   const handleChangeNuevo = (campo, valor) => {
-    setNuevoJugador((prev) => ({
+    setNuevoJugador(prev => ({
       ...prev,
       [campo]: valor,
     }));
@@ -139,22 +131,21 @@ export default function Inicio({ navigation }) {
   //   Borrar jugador
   // ============================
   const borrarJugador = (id, nombre, apellidos) => {
-  Alert.alert(
-    "Confirmar eliminación",
-    `¿Estás seguro de que deseas eliminar a ${nombre} ${apellidos}?`,
-    [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Eliminar",
-        style: "destructive",
-        onPress: () => {
-          remove(ref(db, `jugadores/${id}`));
+    Alert.alert(
+      'Confirmar eliminación',
+      `¿Estás seguro de que deseas eliminar a ${nombre} ${apellidos}?`,
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Eliminar',
+          style: 'destructive',
+          onPress: () => {
+            remove(ref(db, `jugadores/${id}`));
+          },
         },
-      },
-    ]
-  );
-};
-
+      ],
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -171,7 +162,7 @@ export default function Inicio({ navigation }) {
       {/* Lista de jugadores */}
       <FlatList
         data={jugadores}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
@@ -190,7 +181,11 @@ export default function Inicio({ navigation }) {
               </View>
             </View>
 
-            <TouchableOpacity onPress={() => borrarJugador(item.id, item.nombre, item.apellidos)}>
+            <TouchableOpacity
+              onPress={() =>
+                borrarJugador(item.id, item.nombre, item.apellidos)
+              }
+            >
               <View style={styles.deleteIcon}>
                 <Icon name="trash" size={18} color="#D9534F" />
               </View>
@@ -240,7 +235,7 @@ export default function Inicio({ navigation }) {
                     style={styles.input}
                     placeholder="Nombre"
                     value={nuevoJugador.nombre}
-                    onChangeText={(val) => handleChangeNuevo('nombre', val)}
+                    onChangeText={val => handleChangeNuevo('nombre', val)}
                   />
                 </View>
 
@@ -250,7 +245,7 @@ export default function Inicio({ navigation }) {
                     style={styles.input}
                     placeholder="Apellidos"
                     value={nuevoJugador.apellidos}
-                    onChangeText={(val) => handleChangeNuevo('apellidos', val)}
+                    onChangeText={val => handleChangeNuevo('apellidos', val)}
                   />
                 </View>
               </View>
@@ -262,17 +257,11 @@ export default function Inicio({ navigation }) {
                   <View style={styles.pickerContainer}>
                     <Picker
                       selectedValue={nuevoJugador.posicion}
-                      onValueChange={(val) =>
-                        handleChangeNuevo('posicion', val)
-                      }
+                      onValueChange={val => handleChangeNuevo('posicion', val)}
                     >
                       <Picker.Item label="Selecciona" value="" />
-                      {POSICIONES_BASKET.map((pos) => (
-                        <Picker.Item
-                          key={pos}
-                          label={pos}
-                          value={pos}
-                        />
+                      {POSICIONES_BASKET.map(pos => (
+                        <Picker.Item key={pos} label={pos} value={pos} />
                       ))}
                     </Picker>
                   </View>
@@ -284,7 +273,7 @@ export default function Inicio({ navigation }) {
                     style={styles.input}
                     keyboardType="numeric"
                     value={String(nuevoJugador.edad)}
-                    onChangeText={(val) => handleChangeNuevo('edad', val)}
+                    onChangeText={val => handleChangeNuevo('edad', val)}
                   />
                 </View>
               </View>
@@ -297,7 +286,7 @@ export default function Inicio({ navigation }) {
                     style={styles.input}
                     keyboardType="numeric"
                     value={String(nuevoJugador.altura)}
-                    onChangeText={(val) => handleChangeNuevo('altura', val)}
+                    onChangeText={val => handleChangeNuevo('altura', val)}
                   />
                 </View>
               </View>
@@ -312,7 +301,7 @@ export default function Inicio({ navigation }) {
                     autoCapitalize="none"
                     autoCorrect={false}
                     value={nuevoJugador.videoUrl}
-                    onChangeText={(val) => handleChangeNuevo('videoUrl', val)}
+                    onChangeText={val => handleChangeNuevo('videoUrl', val)}
                   />
                 </View>
               </View>
